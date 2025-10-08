@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoRefreshOutline } from "react-icons/io5";
 import BottomNavbar from "../components/common/BottomNavbar";
+import { useAuth } from "../contexts/AuthContext";
 
 const initialFinancialData = {
   gender: '',
@@ -79,6 +80,7 @@ const NumberInput = ({ label, name, value, placeholder, handleChange }) => {
 
 const AnalysisPage = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState(initialFinancialData);
 
@@ -96,7 +98,13 @@ const AnalysisPage = () => {
       setStep(step + 1);
     } else if (step === 4) {
       localStorage.setItem('userData', JSON.stringify(formData));
-      navigate('/dashboard');
+      
+      // 🚨 수정된 부분: 이제 prompt 파라미터 없이 /login으로 이동합니다.
+      if (isLoggedIn) {
+        navigate('/dashboard'); 
+      } else {
+        navigate('/login'); 
+      }
     }
   };
 
@@ -133,7 +141,7 @@ const AnalysisPage = () => {
   const renderUserInfoInput = () => (
     <div style={{ padding: 24 }}>
       <div style={{ marginBottom: 24 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, color: "#222", margin: 0, textAlign: "center" }}>1/3. 나의 정보를 입력해주세요.</h2>
+        <h2 style={{ fontSize: 20, fontWeight: 700, color: "#222", margin: 0, textAlign: "center" }}>1/4. 나의 정보를 입력해주세요.</h2>
       </div>
       <form onSubmit={(e) => { e.preventDefault(); handleNext(); }}>
         <div style={{ marginBottom: 24 }}>
@@ -206,7 +214,7 @@ const AnalysisPage = () => {
   const renderAssetInput = () => (
     <div style={{ padding: 24 }}>
       <div style={{ marginBottom: 24 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, color: "#222", margin: 0, textAlign: "center" }}>2/3. 나의 자산 현황을 입력해주세요.</h2>
+        <h2 style={{ fontSize: 20, fontWeight: 700, color: "#222", margin: 0, textAlign: "center" }}>2/4. 나의 자산 현황을 입력해주세요.</h2>
       </div>
       <form onSubmit={(e) => { e.preventDefault(); handleNext(); }}>
         <NumberInput label="부동산 가액" name="realEstateValue" value={formData.realEstateValue} placeholder="보유 부동산의 현재 가치를 입력" handleChange={handleChange} />
@@ -287,7 +295,7 @@ const AnalysisPage = () => {
           boxShadow: "0 2px 8px #e0e0ff",
           cursor: "pointer",
         }}>
-          재무 분석 완료 (대시보드 이동)
+          재무 분석 완료 (결과 확인)
         </button>
       </form>
     </div>

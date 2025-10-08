@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate, useSearchParams } from 'react-router-dom'; // 👈 useSearchParams 제거
+import { useNavigate } from 'react-router-dom'; 
 import flexaiLogo from '../assets/flexai_logo.png';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  // const [searchParams] = useSearchParams(); // 👈 제거
+  // const promptSignup = searchParams.get('prompt') === 'signup'; // 👈 제거
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -36,6 +40,15 @@ const LoginPage = () => {
         
         {/* 로그인 폼 컨테이너 */}
         <div className="w-full max-w-md relative z-10">
+          
+          {/* 👇 수정: 경고 문구 상시 노출 (조건부 렌더링 제거) */}
+          <div className="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center">
+            <p className="text-sm font-semibold text-yellow-800">
+              테스트 및 분석 결과를 저장하고 대시보드를 이용하려면 <span className="text-blue-600">로그인 또는 회원가입</span>이 필요합니다.
+            </p>
+          </div>
+          {/* 👆 수정: 경고 문구 상시 노출 */}
+          
           {/* Flex AI 로고 섹션 - 상단 작은 로고 */}
           <div className="mb-8">
             <div className="flex items-center mb-6">
@@ -122,6 +135,15 @@ const LoginPage = () => {
               className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors shadow-lg"
             >
               로그인
+            </button>
+
+            {/* 로그인 없이 테스트 시작하기 버튼 */}
+            <button
+              type="button"
+              onClick={() => navigate('/quiz')}
+              className="w-full bg-gray-200 text-gray-700 py-3 px-4 rounded-lg font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+            >
+              로그인 없이 테스트 시작하기
             </button>
 
             {/* 회원가입 링크 */}

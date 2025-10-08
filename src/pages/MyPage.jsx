@@ -153,6 +153,16 @@ const MyPage = () => {
             <IoChevronForward color="#9CA3AF" />
           </div>
         </div>
+        
+        {/* 👇 추가된 섹션: 테스트 다시 하기 */}
+        <div style={sectionContainerStyle}>
+          <h3 style={sectionTitleStyle}>소비 성향 테스트</h3>
+          <div style={rowStyle} onClick={() => navigate("/quiz")}>
+            <span>MBTI 테스트 다시 하기</span>
+            <IoChevronForward color="#9CA3AF" />
+          </div>
+        </div>
+        {/* 👆 추가된 섹션 */}
 
         <div style={sectionContainerStyle}>
           <h3 style={sectionTitleStyle}>데이터</h3>
