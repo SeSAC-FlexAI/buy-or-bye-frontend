@@ -22,10 +22,14 @@ const LoginPage = () => {
     setError('');
     setLoading(true);
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/auth/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`,
-        { method: 'POST', headers: { Accept: 'application/json' } }
-      );
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
     
       if (!response.ok) {
         setError('이메일 또는 비밀번호가 올바르지 않습니다.');
