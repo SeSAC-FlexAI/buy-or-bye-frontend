@@ -16,10 +16,15 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
-  const login = (newToken, userData) => {
+  const login = (newToken, userData = null) => {
     setToken(newToken);
     setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('token', newToken);
+    if (userData) {
+      localStorage.setItem('user', JSON.stringify(userData));
+    } else {
+      localStorage.removeItem('user');
+    }
   };
 
   const logout = () => {

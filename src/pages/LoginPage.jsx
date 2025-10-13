@@ -4,23 +4,44 @@ import { useNavigate } from 'react-router-dom';
 import flexaiLogo from '../assets/flexai_logo.png';
 
 const LoginPage = () => {
+
+  const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'https://buy-or-bye-backend.onrender.com';
+
   const navigate = useNavigate();
-  // const [searchParams] = useSearchParams(); // 👈 제거
-  // const promptSignup = searchParams.get('prompt') === 'signup'; // 👈 제거
-  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // 로그인 로직은 나중에 구현
-    console.log('Login attempt:', { email, password });
-    // 임시로 대시보드로 이동
-    navigate('/dashboard');
+    if (loading) return;
+    
+    setError('');
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/auth/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`,
+        { method: 'POST', headers: { Accept: 'application/json' } }
+      );
+    
+      if (!response.ok) {
+        setError('이메일 또는 비밀번호가 올바르지 않습니다.');
+        return;
+      }
+    
+      const data = await response.json();
+      await login(data.access_token, { email });
+      navigate('/dashboard', { replace: true });
+    } catch (err) {
+      console.error(err);
+      setError('로그인 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    } finally {
+      setLoading(false);
+    }
   };
-
-
 
   return (
     <div className="min-h-screen bg-white flex">
