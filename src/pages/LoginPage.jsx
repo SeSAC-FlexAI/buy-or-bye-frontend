@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 // import { useNavigate, useSearchParams } from 'react-router-dom'; // 👈 useSearchParams 제거
 import { useNavigate } from 'react-router-dom'; 
+import { useAuth } from '../contexts/AuthContext';
 import flexaiLogo from '../assets/flexai_logo.png';
 
 const LoginPage = () => {
