@@ -8,7 +8,7 @@ const LoginPage = () => {
   const { login } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'https://buy-or-bye-backend.onrender.com';
+  const API_BASE_URL = 'https://buy-or-bye-backend.onrender.com';
 
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
